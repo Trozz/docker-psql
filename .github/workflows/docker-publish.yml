@@ -31,6 +31,9 @@ jobs:
           - 14
           - 15
           - 16
+        tags:
+          - schedule
+          - sha
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -71,8 +74,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=schedule
-            type=sha
+            type=${{ matrix.tags }}
 
 
       # Build and push Docker image with Buildx (don't push on PR)
