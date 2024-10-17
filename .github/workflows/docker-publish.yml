@@ -77,6 +77,10 @@ jobs:
             type=${{ matrix.tags }}
 
 
+      - id: LowercaseRegistry
+        run: INPUT=${{ env.REGISTRY }} echo "::set-output name=lowercase_REGISTRY::${INPUT,,}"
+
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -85,7 +89,7 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }} , ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.postgres }}
+          tags: ${{ steps.meta.outputs.tags }} , ${{steps.LowercaseRegistry.outputs.lowercase_REGISTRY}}/${{ env.IMAGE_NAME }}:${{ matrix.postgres }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             - POSTGRES_VERSION: ${{ matrix.postgres }}
