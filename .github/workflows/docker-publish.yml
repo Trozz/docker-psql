@@ -72,7 +72,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=semver,pattern={{ version }},version=${{ matrix.postgres }}
+            type=semver,pattern={{ version }},version="${{ matrix.postgres }}.0.0"
             type=sha
 
 
